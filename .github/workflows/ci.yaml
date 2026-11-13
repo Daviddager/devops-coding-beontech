@@ -1,0 +1,50 @@
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+
+permissions:
+  packages: write
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: setup python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.10"
+
+      - name: build the app
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          pip install -r requirements.txt
+
+      - name: run tests
+        working-directory: api
+        env:
+          MONGO_URI: mongodb://localhost:27017
+          MONGO_DB_NAME: flights
+        run: ../.venv/bin/python -m pytest
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: build container
+        uses: docker/build-push-action@v7
+        with:
+          push: ${{ github.event_name == 'push' }}
+          tag: ghcr.io/${{ github.repository }}:latest
