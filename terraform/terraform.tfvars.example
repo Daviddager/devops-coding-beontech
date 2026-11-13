@@ -1,0 +1,30 @@
+aws_region   = "us-east-1"
+project_name = "beontech"
+environment  = "dev"
+
+# Required: existing ACM certificate in the same region, covering the hostname
+# you will use to reach the ALB.
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/00000000-0000-0000-0000-000000000000"
+
+# Required: image built from the Dockerfile at the repository root.
+image_uri = "ghcr.io/your-org/beontech:latest"
+
+# Optional overrides (defaults shown).
+# vpc_cidr            = "10.0.0.0/16"
+# public_subnet_cidr  = "10.0.0.0/24"
+# app_subnet_cidr     = "10.0.1.0/24"
+# db_subnet_cidr      = "10.0.2.0/24"
+# availability_zones  = ["us-east-1a", "us-east-1b", "us-east-1c"]
+
+# api_cpu                    = 512
+# api_memory                 = 1024
+# api_desired_count          = 2
+# api_min_count              = 2
+# api_max_count              = 6
+# api_cpu_target             = 70
+# api_memory_target          = 80
+
+# docdb_instance_class   = "db.t3.medium"
+# docdb_engine_version   = "5.0.0"
+# docdb_instance_count   = 1
+# docdb_deletion_protection = false
