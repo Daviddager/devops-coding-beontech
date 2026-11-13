@@ -47,4 +47,4 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           push: ${{ github.event_name == 'push' }}
-          tag: ghcr.io/${{ github.repository }}:latest
+          tags: ghcr.io/${{ github.repository }}:latest
